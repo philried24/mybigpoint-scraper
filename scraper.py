@@ -43,7 +43,7 @@ DB_CONFIG = {
     "password": os.getenv("PG_PASSWORD", "1234"),
 }
 
-DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1424357457961947217/XfhnX1l5lMhFS3v--BEyFdtBngCmEXLmK76oPtkMQgf-1lK5nMI7xd_NhzYst6cZVk2v"
+DISCORD_WEBHOOK = "discord_webhook_url"
 
 def db_connect():
     return psycopg2.connect(**DB_CONFIG)
