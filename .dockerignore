@@ -1,0 +1,15 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+env/
+venv/
+.venv/
+*.sqlite3
+output.html
+activities.csv
+.env
+.DS_Store
+build/
+dist/
+*.egg-info
