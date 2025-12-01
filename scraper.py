@@ -45,7 +45,7 @@ DB_CONFIG = {
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-DISCORD_WEBHOOK = "discord_webhook_url"
+DISCORD_WEBHOOK = os.getenv("DISCORD_WEBHOOK")
 
 def db_connect():
     if DATABASE_URL:
