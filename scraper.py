@@ -43,10 +43,23 @@ DB_CONFIG = {
     "password": os.getenv("PG_PASSWORD", "1234"),
 }
 
+DATABASE_URL = os.getenv("DATABASE_URL")
+
 DISCORD_WEBHOOK = "discord_webhook_url"
 
 def db_connect():
-    return psycopg2.connect(**DB_CONFIG)
+    if DATABASE_URL:
+        return psycopg2.connect(DATABASE_URL)
+    else:
+        # Fallback auf einzelne Umgebungsvariablen
+        db_config = {
+            "host": os.getenv("PG_HOST", "localhost"),
+            "port": os.getenv("PG_PORT", "5432"),
+            "database": os.getenv("PG_DB", "tennis"),
+            "user": os.getenv("PG_USER", "postgres"),
+            "password": os.getenv("PG_PASSWORD", "1234"),
+        }
+        return psycopg2.connect(**db_config)
 
 def extract_form_date(html: str) -> str:
     m = re.search(r'name="[^"]*_formDate"[^>]*value="(\d+)"', html)
@@ -248,7 +261,8 @@ def save_lk_and_matches(current_lk, activities):
 **Link:** {a["link"]}
 """
             for i, p in enumerate(a["players"], 1):
-                msg += f"**Spieler {i}:** {p['name']} (LK: {re.sub(r'[^0-9,\.]', '', p['lk'])})\n"
+                lk_clean = re.sub(r'[^0-9,\.]', '', p['lk'])
+                msg += f"**Spieler {i}:** {p['name']} (LK: {lk_clean})\n"
             safe_print("Sende Discord-Nachricht für neues Match...")
             send_discord_message(msg)
         else:
